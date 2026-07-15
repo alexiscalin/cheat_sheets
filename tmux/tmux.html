@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)file:///home/alexis/Projects/cheat_sheets/tmux_v2.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Tmux Ultimate Cheat Sheet</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 4mm 5mm;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 6.8pt;
+    margin: 0;
+    padding: 0;
+    color: #0f172a;
+    line-height: 1.2;
+    background-color: #f8fafc;
+  }
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  
+  .header-table {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #0d9488;
+    padding-bottom: 1.5mm;
+    margin-bottom: 2.5mm;
+  }
+  h1 {
+    margin: 0;
+    font-size: 15pt;
+    color: #0f172a;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+  }
+  .subtitle {
+    font-size: 7.5pt;
+    color: #0d9488;
+    font-weight: bold;
+    margin-top: 0.5mm;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .prefix-box {
+    border: 1px solid #cbd5e1;
+    background: white;
+    padding: 1mm 3mm;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .prefix-box .title { font-size: 6pt; color: #475569; text-transform: uppercase; font-weight: bold; }
+  .prefix-box .key { font-size: 11pt; font-weight: bold; color: #0f172a; }
+  .prefix-box .desc { font-size: 6pt; color: #64748b; }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 3mm;
+    row-gap: 2.5mm;
+  }
+  
+  .card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  }
+  .card-header {
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 1.2mm 2.5mm;
+    font-size: 7.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #0f172a;
+  }
+  .card-body {
+    padding: 1.5mm 2mm;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 2px 1px;
+    text-align: left;
+    vertical-align: middle;
+  }
+  td { border-bottom: 1px solid #f1f5f9; }
+  tr:last-child td { border-bottom: none; }
+  th {
+    font-weight: bold;
+    color: #475569;
+    font-size: 6pt;
+    text-transform: uppercase;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1px;
+  }
+  .w-short { width: 35%; }
+  .w-act { width: 65%; }
+
+  kbd {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 2px;
+    padding: 0.5px 2.5px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 6.5pt;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #0f172a;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+  }
+  .cmd {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 6.5pt;
+    background: #f1f5f9;
+    padding: 0.5px 2.5px;
+    border-radius: 2px;
+    color: #0284c7;
+    font-weight: 500;
+    word-break: break-all;
+  }
+  
+  .step-list { margin: 0; padding-left: 3.5mm; list-style-type: decimal; }
+  .step-list li { margin-bottom: 1mm; }
+  .step-list li:last-child { margin-bottom: 0; }
+
+  .tip-box {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    padding: 1mm 1.5mm;
+    margin-top: 1.5mm;
+    border-radius: 2px;
+    font-size: 6.2pt;
+    color: #166534;
+  }
+  
+  .footer-flow {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    margin-top: 3mm;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  }
+  .footer-header {
+    background: #0d9488;
+    color: white;
+    padding: 1mm 2.5mm;
+    font-size: 7.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .footer-body {
+    padding: 1.5mm 2mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 6.8pt;
+    font-weight: bold;
+  }
+  .flow-step {
+    flex: 1;
+    text-align: center;
+    color: #334155;
+  }
+  .flow-arrow {
+    color: #94a3b8;
+    font-size: 9pt;
+    padding: 0 1mm;
+  }
+</style>
+</head>
+<body>
+
+<div class="header-table">
+  <div>
+    <h1>TMUX CHEAT SHEET</h1>
+    <div class="subtitle">Ultimate Multi-terminal Management</div>
+  </div>
+  <div class="prefix-box">
+    <div class="title">Default Prefix</div>
+    <div class="key"><kbd>Ctrl</kbd>+<kbd>b</kbd></div>
+    <div class="desc">Press prefix, then key.</div>
+  </div>
+</div>
+
+<div class="grid-container">
+  
+  <div class="card">
+    <div class="card-header">🚀 Quick Start</div>
+    <div class="card-body">
+      <ol class="step-list">
+        <li><strong>Connect:</strong> <span class="cmd">ssh user@server</span></li>
+        <li><strong>Launch:</strong> <span class="cmd">tmux new -s work</span></li>
+        <li><strong>Split/Run:</strong> Create panes, execute commands.</li>
+        <li><strong>Disconnect:</strong> Press <kbd>Ctrl+b</kbd> then <kbd>d</kbd></li>
+        <li><strong>Resume:</strong> <span class="cmd">tmux a -t work</span></li>
+      </ol>
+      <div class="tip-box">
+        Install: <span class="cmd">sudo apt install tmux</span> (Debian/Ubuntu)
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">💻 Session CLI Management</div>
+    <div class="card-body">
+      <table>
+        <tbody><tr><th class="w-short">Command</th><th class="w-act">Description</th></tr>
+        <tr><td><span class="cmd">tmux new -s &lt;n&gt;</span></td><td>New session named &lt;n&gt;</td></tr>
+        <tr><td><span class="cmd">tmux new -s &lt;n&gt; -d</span></td><td>Create in background</td></tr>
+        <tr><td><span class="cmd">tmux ls</span></td><td>List active sessions</td></tr>
+        <tr><td><span class="cmd">tmux a -t &lt;n&gt;</span></td><td>Attach to named session</td></tr>
+        <tr><td><span class="cmd">tmux a</span></td><td>Attach to last active</td></tr>
+        <tr><td><span class="cmd">tmux kill-session -t &lt;n&gt;</span></td><td>Kill named session</td></tr>
+        <tr><td><span class="cmd">tmux kill-server</span></td><td>Kill all sessions/server</td></tr>
+        <tr><td><span class="cmd">tmux rename-session &lt;n&gt;</span></td><td>Rename current session</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🔗 Session Keybindings</div>
+    <div class="card-body">
+      <strong>Inside active session:</strong>
+      <table style="margin-top:1mm;">
+        <tbody><tr><th class="w-short">Shortcut</th><th class="w-act">Action</th></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>d</kbd></td><td>Detach session (keep active)</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>s</kbd></td><td>Interactive session list</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>$</kbd></td><td>Rename current session</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>(</kbd></td><td>Switch to previous session</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>)</kbd></td><td>Switch to next session</td></tr>
+      </tbody></table>
+      <div class="tip-box">Your processes survive SSH disconnections.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🗔 Windows (Tabs)</div>
+    <div class="card-body">
+      <table>
+        <tbody><tr><th class="w-short">Shortcut</th><th class="w-act">Action</th></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>c</kbd></td><td>Create new window</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>n</kbd></td><td>Next window</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>p</kbd></td><td>Previous window</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>0-9</kbd></td><td>Go to window by number</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>,</kbd></td><td>Rename active window</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>w</kbd></td><td>Choose window from list</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>.</kbd></td><td>Move/reorder window index</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>&amp;</kbd></td><td>Kill current window</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">◫ Panes (Splits)</div>
+    <div class="card-body">
+      <table>
+        <tbody><tr><th class="w-short">Shortcut</th><th class="w-act">Action</th></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>%</kbd></td><td>Split pane vertically</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>"</kbd></td><td>Split pane horizontally</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>o</kbd></td><td>Cycle to next pane</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>;</kbd></td><td>Jump to previous pane</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>{</kbd></td><td>Swap pane with previous</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>}</kbd></td><td>Swap pane with next</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>x</kbd></td><td>Close active pane</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>!</kbd></td><td>Break pane into new window</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🧭 Navigation &amp; Layouts</div>
+    <div class="card-body">
+      <table>
+        <tbody><tr><th class="w-short">Shortcut</th><th class="w-act">Action</th></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>Arrows</kbd></td><td>Navigate between panes</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>q</kbd></td><td>Show pane indexes</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>z</kbd></td><td>Toggle pane full-screen zoom</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>Space</kbd></td><td>Cycle default layout styles</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>t</kbd></td><td>Show digital clock overlay</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>?</kbd></td><td>List all bound shortcuts</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>:</kbd></td><td>Enter tmux command line</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">📄 Copy Mode (Scrollback)</div>
+    <div class="card-body">
+      <table>
+        <tbody><tr><th class="w-short">Shortcut</th><th class="w-act">Action</th></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>[</kbd></td><td>Enter scroll/copy mode</td></tr>
+        <tr><td><kbd>Space</kbd></td><td>Begin selecting text</td></tr>
+        <tr><td><kbd>Arrows</kbd></td><td>Navigate cursor selection</td></tr>
+        <tr><td><kbd>PgUp</kbd> / <kbd>PgDn</kbd></td><td>Scroll terminal history</td></tr>
+        <tr><td><kbd>Enter</kbd></td><td>Copy select text to buffer</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>]</kbd></td><td>Paste buffer contents</td></tr>
+        <tr><td><kbd>q</kbd> / <kbd>Esc</kbd></td><td>Exit copy mode</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🔍 Search (In Copy Mode)</div>
+    <div class="card-body">
+      <table>
+        <tbody><tr><th class="w-short">Shortcut</th><th class="w-act">Action</th></tr>
+        <tr><td><kbd>/</kbd></td><td>Search forward</td></tr>
+        <tr><td><kbd>?</kbd></td><td>Search backward</td></tr>
+        <tr><td><kbd>n</kbd></td><td>Go to next match</td></tr>
+        <tr><td><kbd>N</kbd></td><td>Go to previous match</td></tr>
+        <tr><td><kbd>Enter</kbd></td><td>Jump straight to selection</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">📐 Pane Resizing</div>
+    <div class="card-body">
+      <table>
+        <tbody><tr><th class="w-short">Shortcut/Cmd</th><th class="w-act">Action</th></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>Arrows</kbd> (Hold)</td><td>Resize active pane 1 cell</td></tr>
+        <tr><td><kbd>Ctrl+b</kbd> <kbd>Alt</kbd>+<kbd>Arrows</kbd></td><td>Resize active pane 5 cells</td></tr>
+        <tr><td><span class="cmd">resize-pane -L &lt;n&gt;</span></td><td>Grow pane Left by &lt;n&gt;</td></tr>
+        <tr><td><span class="cmd">resize-pane -R &lt;n&gt;</span></td><td>Grow pane Right by &lt;n&gt;</td></tr>
+        <tr><td><span class="cmd">resize-pane -U &lt;n&gt;</span></td><td>Grow pane Up by &lt;n&gt;</td></tr>
+        <tr><td><span class="cmd">resize-pane -D &lt;n&gt;</span></td><td>Grow pane Down by &lt;n&gt;</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🖱 Mouse &amp; Customization</div>
+    <div class="card-body">
+      <table>
+        <tbody><tr><th class="w-short">Shortcut / Command</th><th class="w-act">Action</th></tr>
+        <tr><td><span class="cmd">set -g mouse on</span></td><td>Enable mouse scrolling/sizing</td></tr>
+        <tr><td><kbd>Click + Drag</kbd></td><td>Select and copy text in pane</td></tr>
+        <tr><td><kbd>Left-Click</kbd></td><td>Instantly switch focus to pane</td></tr>
+        <tr><td><kbd>Drag Pane Border</kbd></td><td>Resize panes interactively</td></tr>
+      </tbody></table>
+      <div class="tip-box">Enable mouse in <kbd>~/.tmux.conf</kbd> for default use.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🔄 Config &amp; Customization</div>
+    <div class="card-body">
+      <table>
+        <tbody><tr><th class="w-short">Command</th><th class="w-act">Description</th></tr>
+        <tr><td><span class="cmd">source-file ~/.tmux.conf</span></td><td>Reload active configuration</td></tr>
+        <tr><td><span class="cmd">show-options -g</span></td><td>View global session configurations</td></tr>
+        <tr><td><span class="cmd">show-window-options -g</span></td><td>View global window configurations</td></tr>
+      </tbody></table>
+      <div class="tip-box">Command mode prompt: <kbd>Ctrl+b</kbd> then <kbd>:</kbd></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">🛠 Advanced CLI Commands</div>
+    <div class="card-body">
+      <table>
+        <tbody><tr><th class="w-short">Command</th><th class="w-act">Description</th></tr>
+        <tr><td><span class="cmd">tmux list-panes</span></td><td>Output active terminal panes list</td></tr>
+        <tr><td><span class="cmd">tmux list-windows</span></td><td>Output list of all windows</td></tr>
+        <tr><td><span class="cmd">tmux show-buffer</span></td><td>Output modern copy buffer data</td></tr>
+        <tr><td><span class="cmd">tmux capture-pane -p</span></td><td>Print entire pane history inline</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<div class="footer-flow">
+  <div class="footer-header">WORKFLOW AT A GLANCE</div>
+  <div class="footer-body">
+    <div class="flow-step">1. Connect via SSH</div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">2. Start Session (<span class="cmd">tmux new</span>)</div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">3. Perform Work (Splits/Windows)</div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">4. Detach (<kbd>Ctrl+b</kbd> <kbd>d</kbd>)</div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">5. Close SSH Client</div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">6. Reattach (<span class="cmd">tmux a</span>)</div>
+  </div>
+</div>
+
+
+
+</body></html>
