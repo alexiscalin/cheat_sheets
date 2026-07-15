@@ -1,406 +1,485 @@
 <!DOCTYPE html>
-<!-- saved from url=(0054)file:///home/alexis/Projects/cheat_sheets/tmux_v2.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tmux Ultimate Cheat Sheet</title>
 <style>
+  /* --- STRICT A4 VERTICAL BUDGET --- */
   @page {
     size: A4 portrait;
-    margin: 4mm 5mm;
+    margin: 6mm;
   }
+  
+  :root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface-alt: #f1f5f9;
+    --surface-hover: #e2e8f0;
+    --border: #cbd5e1;
+    --border-light: #e2e8f0;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --accent-dark: #0f172a;
+    --accent-main: #2563eb;
+    --accent-light: #eff6ff;
+    --code-color: #0284c7;
+  }
+
+  @media print {
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
+
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-size: 6.8pt;
+    font-size: 7.2pt;
     margin: 0;
     padding: 0;
-    color: #0f172a;
-    line-height: 1.2;
-    background-color: #f8fafc;
-  }
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-  
-  .header-table {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #0d9488;
-    padding-bottom: 1.5mm;
-    margin-bottom: 2.5mm;
-  }
-  h1 {
-    margin: 0;
-    font-size: 15pt;
-    color: #0f172a;
-    text-transform: uppercase;
-    font-weight: 900;
-    letter-spacing: 0.5px;
-  }
-  .subtitle {
-    font-size: 7.5pt;
-    color: #0d9488;
-    font-weight: bold;
-    margin-top: 0.5mm;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .prefix-box {
-    border: 1px solid #cbd5e1;
-    background: white;
-    padding: 1mm 3mm;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    gap: 2mm;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  }
-  .prefix-box .title { font-size: 6pt; color: #475569; text-transform: uppercase; font-weight: bold; }
-  .prefix-box .key { font-size: 11pt; font-weight: bold; color: #0f172a; }
-  .prefix-box .desc { font-size: 6pt; color: #64748b; }
-
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: 3mm;
-    row-gap: 2.5mm;
-  }
-  
-  .card {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-    overflow: hidden;
+    color: var(--text-main);
+    line-height: 1.3;
+    background-color: var(--bg);
+    /* Thickened dot for print recognition */
+    background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px);
+    background-size: 10px 10px;
+    height: 285mm; 
+    width: 198mm;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
   }
-  .card-header {
-    background: #0f172a;
-    color: #f8fafc;
-    padding: 1.2mm 2.5mm;
+
+  *, *::before, *::after { box-sizing: inherit; }
+
+  /* --- HEADER --- */
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent-main);
+    padding: 6px 12px;
+    margin-bottom: 4mm;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    flex-shrink: 0;
+  }
+
+  .title-group h1 {
+    margin: 0;
+    font-size: 16pt;
+    font-weight: 900;
+    color: var(--accent-dark);
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .title-group p {
+    margin: 4px 0 0 0;
     font-size: 7.5pt;
-    font-weight: bold;
+    font-weight: 700;
+    color: var(--accent-main);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 1px solid #0f172a;
+    line-height: 1;
   }
-  .card-body {
-    padding: 1.5mm 2mm;
+
+  .prefix-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 4px;
   }
+
+  .prefix-box .label {
+    font-size: 6.5pt;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* --- TYPOGRAPHY & CODE --- */
+  kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-bottom: 2px solid #94a3b8;
+    border-radius: 3px;
+    padding: 2px 4px;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 6.8pt;
+    font-weight: 700;
+    color: var(--accent-dark);
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .cmd {
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 6.8pt;
+    font-weight: 600;
+    color: var(--code-color);
+    background: var(--surface-alt);
+    border: 1px solid var(--border-light);
+    border-radius: 3px;
+    padding: 1px 4px;
+    /* Removed nowrap to prevent text overlapping */
+    word-break: break-word;
+    display: inline-block;
+  }
+
+  .key-combo {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    /* Allow multiple keys to wrap to the next line instead of bleeding */
+    flex-wrap: wrap; 
+  }
+
+  /* --- MAIN CONTENT GRID --- */
+  .columns-container {
+    display: flex;
+    gap: 4mm;
+    flex-grow: 1;
+  }
+
+  .column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    /* Fixed the gaping holes: stack tightly from the top */
+    justify-content: flex-start; 
+    gap: 3.5mm;
+    min-width: 0;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  }
+
+  .card-header {
+    background: var(--accent-dark);
+    color: #ffffff;
+    padding: 5px 8px;
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--accent-dark);
+  }
+
+  /* --- TABLES & CONTENT --- */
   table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
   }
+
   th, td {
-    padding: 2px 1px;
+    padding: 4.5px 6px;
     text-align: left;
     vertical-align: middle;
+    border-bottom: 1px solid var(--border-light);
   }
-  td { border-bottom: 1px solid #f1f5f9; }
-  tr:last-child td { border-bottom: none; }
-  th {
-    font-weight: bold;
-    color: #475569;
-    font-size: 6pt;
-    text-transform: uppercase;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 1px;
-  }
-  .w-short { width: 35%; }
-  .w-act { width: 65%; }
 
-  kbd {
-    background: #f8fafc;
-    border: 1px solid #cbd5e1;
-    border-radius: 2px;
-    padding: 0.5px 2.5px;
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-    font-size: 6.5pt;
-    font-weight: 600;
-    white-space: nowrap;
-    color: #0f172a;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background-color: #fafbfc; }
+
+  th {
+    background: var(--surface-hover);
+    font-size: 6.2pt;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.2px;
   }
-  .cmd {
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-    font-size: 6.5pt;
-    background: #f1f5f9;
-    padding: 0.5px 2.5px;
-    border-radius: 2px;
-    color: #0284c7;
-    font-weight: 500;
-    word-break: break-all;
+
+  /* Adjusted widths to give long commands more room */
+  .col-keys { width: 50%; padding-right: 4px; }
+  .col-desc { width: 50%; }
+
+  ol.step-list {
+    margin: 0;
+    padding: 6px 8px 6px 24px;
   }
   
-  .step-list { margin: 0; padding-left: 3.5mm; list-style-type: decimal; }
-  .step-list li { margin-bottom: 1mm; }
-  .step-list li:last-child { margin-bottom: 0; }
+  ol.step-list li { margin-bottom: 4px; }
+  ol.step-list li:last-child { margin-bottom: 0; }
+  ol.step-list strong { color: var(--accent-dark); }
 
   .tip-box {
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    padding: 1mm 1.5mm;
-    margin-top: 1.5mm;
-    border-radius: 2px;
-    font-size: 6.2pt;
-    color: #166534;
+    background: var(--accent-light);
+    border-top: 1px solid #bfdbfe;
+    padding: 5px 8px;
+    font-size: 6.8pt;
+    color: #1e3a8a;
+    font-weight: 600;
+  }
+
+  /* --- FOOTER FLOW --- */
+  .footer-flow {
+    /* Push to the bottom naturally using auto margin */
+    margin-top: auto; 
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
   }
   
-  .footer-flow {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-    margin-top: 3mm;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-  }
-  .footer-header {
-    background: #0d9488;
+  .footer-flow-header {
+    background: var(--accent-main);
     color: white;
-    padding: 1mm 2.5mm;
+    padding: 4.5px 8px;
     font-size: 7.5pt;
-    font-weight: bold;
+    font-weight: 700;
     text-transform: uppercase;
+    text-align: center;
     letter-spacing: 0.5px;
   }
-  .footer-body {
-    padding: 1.5mm 2mm;
+  
+  .footer-flow-body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 6.8pt;
-    font-weight: bold;
+    padding: 6px 16px;
+    background: var(--surface);
+    font-weight: 700;
+    font-size: 7.2pt;
+    color: var(--accent-dark);
   }
-  .flow-step {
-    flex: 1;
-    text-align: center;
-    color: #334155;
+  
+  .arrow { 
+    color: var(--accent-main); 
+    font-size: 9pt; 
+    font-weight: 900;
   }
-  .flow-arrow {
-    color: #94a3b8;
-    font-size: 9pt;
-    padding: 0 1mm;
-  }
+
 </style>
 </head>
 <body>
 
-<div class="header-table">
-  <div>
-    <h1>TMUX CHEAT SHEET</h1>
-    <div class="subtitle">Ultimate Multi-terminal Management</div>
+<div class="header-container">
+  <div class="title-group">
+    <h1>Tmux Cheat Sheet</h1>
+    <p>Ultimate Multi-Terminal Management</p>
   </div>
   <div class="prefix-box">
-    <div class="title">Default Prefix</div>
-    <div class="key"><kbd>Ctrl</kbd>+<kbd>b</kbd></div>
-    <div class="desc">Press prefix, then key.</div>
+    <span class="label">Default Prefix</span>
+    <div class="keys"><kbd>Ctrl</kbd>+<kbd>b</kbd></div>
   </div>
 </div>
 
-<div class="grid-container">
+<div class="columns-container">
   
-  <div class="card">
-    <div class="card-header">🚀 Quick Start</div>
-    <div class="card-body">
-      <ol class="step-list">
-        <li><strong>Connect:</strong> <span class="cmd">ssh user@server</span></li>
-        <li><strong>Launch:</strong> <span class="cmd">tmux new -s work</span></li>
-        <li><strong>Split/Run:</strong> Create panes, execute commands.</li>
-        <li><strong>Disconnect:</strong> Press <kbd>Ctrl+b</kbd> then <kbd>d</kbd></li>
-        <li><strong>Resume:</strong> <span class="cmd">tmux a -t work</span></li>
-      </ol>
-      <div class="tip-box">
-        Install: <span class="cmd">sudo apt install tmux</span> (Debian/Ubuntu)
+  <div class="column">
+    <div class="card">
+      <div class="card-header">🚀 Quick Start</div>
+      <div>
+        <ol class="step-list">
+          <li><strong>Connect:</strong> <span class="cmd">ssh user@server</span></li>
+          <li><strong>Launch:</strong> <span class="cmd">tmux new -s work</span></li>
+          <li><strong>Work:</strong> Split panes, run tasks, view logs.</li>
+          <li><strong>Detach:</strong> Press <kbd>Ctrl</kbd>+<kbd>b</kbd> then <kbd>d</kbd></li>
+          <li><strong>Resume:</strong> <span class="cmd">tmux a -t work</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">💻 Session CLI Management</div>
+      <div>
+        <table>
+          <tr><th class="col-keys">Command</th><th class="col-desc">Description</th></tr>
+          <tr><td><span class="cmd">tmux new -s &lt;n&gt;</span></td><td>New session named &lt;n&gt;</td></tr>
+          <tr><td><span class="cmd">tmux new -s &lt;n&gt; -d</span></td><td>Create in background</td></tr>
+          <tr><td><span class="cmd">tmux ls</span></td><td>List active sessions</td></tr>
+          <tr><td><span class="cmd">tmux a -t &lt;n&gt;</span></td><td>Attach to named session</td></tr>
+          <tr><td><span class="cmd">tmux a</span></td><td>Attach to last active</td></tr>
+          <tr><td><span class="cmd">tmux kill-session -t &lt;n&gt;</span></td><td>Kill named session</td></tr>
+          <tr><td><span class="cmd">tmux kill-server</span></td><td>Kill all sessions</td></tr>
+          <tr><td><span class="cmd">tmux rename-session &lt;n&gt;</span></td><td>Rename session</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">🔗 Session Keybindings</div>
+      <div>
+        <table>
+          <tr><th class="col-keys">Shortcut</th><th class="col-desc">Action</th></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>d</kbd></div></td><td>Detach (keeps active)</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>s</kbd></div></td><td>Interactive session list</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>$</kbd></div></td><td>Rename current session</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>(</kbd></div></td><td>Switch to previous session</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>)</kbd></div></td><td>Switch to next session</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">🧭 Navigation & Info</div>
+      <div>
+        <table>
+          <tr><th class="col-keys">Shortcut</th><th class="col-desc">Action</th></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>q</kbd></div></td><td>Show pane index overlays</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>t</kbd></div></td><td>Show digital clock overlay</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>?</kbd></div></td><td>List all key bindings</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>:</kbd></div></td><td>Open command prompt</td></tr>
+        </table>
       </div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-header">💻 Session CLI Management</div>
-    <div class="card-body">
-      <table>
-        <tbody><tr><th class="w-short">Command</th><th class="w-act">Description</th></tr>
-        <tr><td><span class="cmd">tmux new -s &lt;n&gt;</span></td><td>New session named &lt;n&gt;</td></tr>
-        <tr><td><span class="cmd">tmux new -s &lt;n&gt; -d</span></td><td>Create in background</td></tr>
-        <tr><td><span class="cmd">tmux ls</span></td><td>List active sessions</td></tr>
-        <tr><td><span class="cmd">tmux a -t &lt;n&gt;</span></td><td>Attach to named session</td></tr>
-        <tr><td><span class="cmd">tmux a</span></td><td>Attach to last active</td></tr>
-        <tr><td><span class="cmd">tmux kill-session -t &lt;n&gt;</span></td><td>Kill named session</td></tr>
-        <tr><td><span class="cmd">tmux kill-server</span></td><td>Kill all sessions/server</td></tr>
-        <tr><td><span class="cmd">tmux rename-session &lt;n&gt;</span></td><td>Rename current session</td></tr>
-      </tbody></table>
+  <div class="column">
+    <div class="card">
+      <div class="card-header">🗔 Windows (Tabs)</div>
+      <div>
+        <table>
+          <tr><th class="col-keys">Shortcut / Cmd</th><th class="col-desc">Action</th></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>c</kbd></div></td><td>Create new window</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>n</kbd></div></td><td>Go to next window</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>p</kbd></div></td><td>Go to previous window</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>0-9</kbd></div></td><td>Go to window by index</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>,</kbd></div></td><td>Rename current window</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>w</kbd></div></td><td>Choose window from list</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>.</kbd></div></td><td>Move/reorder window prompt</td></tr>
+          <tr><td><span class="cmd">swap-window -s 1 -t 3</span></td><td>Swap window 1 with 3</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>&amp;</kbd></div></td><td>Kill current window</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">◫ Panes (Splits)</div>
+      <div>
+        <table>
+          <tr><th class="col-keys">Shortcut</th><th class="col-desc">Action</th></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>%</kbd></div></td><td>Split pane vertically</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>"</kbd></div></td><td>Split pane horizontally</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>Arrows</kbd></div></td><td>Navigate between panes</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>o</kbd></div></td><td>Cycle to next pane</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>;</kbd></div></td><td>Jump to previous pane</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>{</kbd> / <kbd>}</kbd></div></td><td>Swap pane with prev/next</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>x</kbd></div></td><td>Close active pane</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>!</kbd></div></td><td>Break pane to new window</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>z</kbd></div></td><td>Toggle fullscreen zoom</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>Space</kbd></div></td><td>Cycle layout styles</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">⚡ Advanced Panes & Layouts</div>
+      <div>
+        <table>
+          <tr><th class="col-keys">Command / Key</th><th class="col-desc">Action</th></tr>
+          <tr><td><span class="cmd">:setw synchronize-panes</span></td><td>Type in all panes</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>Alt</kbd>+<kbd>1-5</kbd></div></td><td>Apply built-in auto layouts</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>Arrows</kbd></div></td><td>Resize pane 1 cell (Hold)</td></tr>
+          <tr><td><span class="cmd">resize-pane -D 5</span></td><td>Grow pane Down 5 cells</td></tr>
+        </table>
+      </div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-header">🔗 Session Keybindings</div>
-    <div class="card-body">
-      <strong>Inside active session:</strong>
-      <table style="margin-top:1mm;">
-        <tbody><tr><th class="w-short">Shortcut</th><th class="w-act">Action</th></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>d</kbd></td><td>Detach session (keep active)</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>s</kbd></td><td>Interactive session list</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>$</kbd></td><td>Rename current session</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>(</kbd></td><td>Switch to previous session</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>)</kbd></td><td>Switch to next session</td></tr>
-      </tbody></table>
-      <div class="tip-box">Your processes survive SSH disconnections.</div>
+  <div class="column">
+    <div class="card">
+      <div class="card-header">📄 Copy Mode & Scrollback</div>
+      <div>
+        <table>
+          <tr><th class="col-keys">Shortcut</th><th class="col-desc">Action</th></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>[</kbd></div></td><td>Enter copy/scroll mode</td></tr>
+          <tr><td><kbd>Space</kbd></td><td>Begin text selection</td></tr>
+          <tr><td><kbd>Arrows</kbd> / <kbd>PgUp</kbd></td><td>Navigate cursor / Scroll</td></tr>
+          <tr><td><kbd>Enter</kbd></td><td>Copy selection to buffer</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>]</kbd></div></td><td>Paste from copy buffer</td></tr>
+          <tr><td><div class="key-combo"><kbd>q</kbd> <i>or</i> <kbd>Esc</kbd></div></td><td>Exit copy mode</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">🔍 Search (In Copy Mode)</div>
+      <div>
+        <table>
+          <tr><th class="col-keys">Shortcut</th><th class="col-desc">Action</th></tr>
+          <tr><td><kbd>/</kbd></td><td>Search forward</td></tr>
+          <tr><td><kbd>?</kbd></td><td>Search backward</td></tr>
+          <tr><td><div class="key-combo"><kbd>n</kbd> / <kbd>N</kbd></div></td><td>Next / Previous match</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">🖱 Mouse Support</div>
+      <div>
+        <table>
+          <tr><th class="col-keys">Command / Action</th><th class="col-desc">Result</th></tr>
+          <tr><td><span class="cmd">set -g mouse on</span></td><td>Enable mouse support</td></tr>
+          <tr><td><kbd>Click + Drag</kbd></td><td>Select text / Resize panes</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">🔄 Config & Buffers</div>
+      <div>
+        <table>
+          <tr><th class="col-keys">Command</th><th class="col-desc">Description</th></tr>
+          <tr><td><span class="cmd">source ~/.tmux.conf</span></td><td>Reload configuration file</td></tr>
+          <tr><td><span class="cmd">tmux show-options -g</span></td><td>View global session config</td></tr>
+          <tr><td><span class="cmd">tmux show-buffer</span></td><td>View current paste buffer</td></tr>
+          <tr><td><span class="cmd">tmux list-buffers</span></td><td>List all copied buffers</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">🔌 Plugins (TPM)</div>
+      <div>
+        <table>
+          <tr><th class="col-keys">Shortcut</th><th class="col-desc">Action</th></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>I</kbd></div></td><td>Install plugins (Capital I)</td></tr>
+          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>U</kbd></div></td><td>Update plugins</td></tr>
+        </table>
+        <div class="tip-box">Requires <em>tmux-plugins/tpm</em> installed.</div>
+      </div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-header">🗔 Windows (Tabs)</div>
-    <div class="card-body">
-      <table>
-        <tbody><tr><th class="w-short">Shortcut</th><th class="w-act">Action</th></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>c</kbd></td><td>Create new window</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>n</kbd></td><td>Next window</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>p</kbd></td><td>Previous window</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>0-9</kbd></td><td>Go to window by number</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>,</kbd></td><td>Rename active window</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>w</kbd></td><td>Choose window from list</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>.</kbd></td><td>Move/reorder window index</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>&amp;</kbd></td><td>Kill current window</td></tr>
-      </tbody></table>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">◫ Panes (Splits)</div>
-    <div class="card-body">
-      <table>
-        <tbody><tr><th class="w-short">Shortcut</th><th class="w-act">Action</th></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>%</kbd></td><td>Split pane vertically</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>"</kbd></td><td>Split pane horizontally</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>o</kbd></td><td>Cycle to next pane</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>;</kbd></td><td>Jump to previous pane</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>{</kbd></td><td>Swap pane with previous</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>}</kbd></td><td>Swap pane with next</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>x</kbd></td><td>Close active pane</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>!</kbd></td><td>Break pane into new window</td></tr>
-      </tbody></table>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">🧭 Navigation &amp; Layouts</div>
-    <div class="card-body">
-      <table>
-        <tbody><tr><th class="w-short">Shortcut</th><th class="w-act">Action</th></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>Arrows</kbd></td><td>Navigate between panes</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>q</kbd></td><td>Show pane indexes</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>z</kbd></td><td>Toggle pane full-screen zoom</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>Space</kbd></td><td>Cycle default layout styles</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>t</kbd></td><td>Show digital clock overlay</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>?</kbd></td><td>List all bound shortcuts</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>:</kbd></td><td>Enter tmux command line</td></tr>
-      </tbody></table>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">📄 Copy Mode (Scrollback)</div>
-    <div class="card-body">
-      <table>
-        <tbody><tr><th class="w-short">Shortcut</th><th class="w-act">Action</th></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>[</kbd></td><td>Enter scroll/copy mode</td></tr>
-        <tr><td><kbd>Space</kbd></td><td>Begin selecting text</td></tr>
-        <tr><td><kbd>Arrows</kbd></td><td>Navigate cursor selection</td></tr>
-        <tr><td><kbd>PgUp</kbd> / <kbd>PgDn</kbd></td><td>Scroll terminal history</td></tr>
-        <tr><td><kbd>Enter</kbd></td><td>Copy select text to buffer</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>]</kbd></td><td>Paste buffer contents</td></tr>
-        <tr><td><kbd>q</kbd> / <kbd>Esc</kbd></td><td>Exit copy mode</td></tr>
-      </tbody></table>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">🔍 Search (In Copy Mode)</div>
-    <div class="card-body">
-      <table>
-        <tbody><tr><th class="w-short">Shortcut</th><th class="w-act">Action</th></tr>
-        <tr><td><kbd>/</kbd></td><td>Search forward</td></tr>
-        <tr><td><kbd>?</kbd></td><td>Search backward</td></tr>
-        <tr><td><kbd>n</kbd></td><td>Go to next match</td></tr>
-        <tr><td><kbd>N</kbd></td><td>Go to previous match</td></tr>
-        <tr><td><kbd>Enter</kbd></td><td>Jump straight to selection</td></tr>
-      </tbody></table>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">📐 Pane Resizing</div>
-    <div class="card-body">
-      <table>
-        <tbody><tr><th class="w-short">Shortcut/Cmd</th><th class="w-act">Action</th></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>Arrows</kbd> (Hold)</td><td>Resize active pane 1 cell</td></tr>
-        <tr><td><kbd>Ctrl+b</kbd> <kbd>Alt</kbd>+<kbd>Arrows</kbd></td><td>Resize active pane 5 cells</td></tr>
-        <tr><td><span class="cmd">resize-pane -L &lt;n&gt;</span></td><td>Grow pane Left by &lt;n&gt;</td></tr>
-        <tr><td><span class="cmd">resize-pane -R &lt;n&gt;</span></td><td>Grow pane Right by &lt;n&gt;</td></tr>
-        <tr><td><span class="cmd">resize-pane -U &lt;n&gt;</span></td><td>Grow pane Up by &lt;n&gt;</td></tr>
-        <tr><td><span class="cmd">resize-pane -D &lt;n&gt;</span></td><td>Grow pane Down by &lt;n&gt;</td></tr>
-      </tbody></table>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">🖱 Mouse &amp; Customization</div>
-    <div class="card-body">
-      <table>
-        <tbody><tr><th class="w-short">Shortcut / Command</th><th class="w-act">Action</th></tr>
-        <tr><td><span class="cmd">set -g mouse on</span></td><td>Enable mouse scrolling/sizing</td></tr>
-        <tr><td><kbd>Click + Drag</kbd></td><td>Select and copy text in pane</td></tr>
-        <tr><td><kbd>Left-Click</kbd></td><td>Instantly switch focus to pane</td></tr>
-        <tr><td><kbd>Drag Pane Border</kbd></td><td>Resize panes interactively</td></tr>
-      </tbody></table>
-      <div class="tip-box">Enable mouse in <kbd>~/.tmux.conf</kbd> for default use.</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">🔄 Config &amp; Customization</div>
-    <div class="card-body">
-      <table>
-        <tbody><tr><th class="w-short">Command</th><th class="w-act">Description</th></tr>
-        <tr><td><span class="cmd">source-file ~/.tmux.conf</span></td><td>Reload active configuration</td></tr>
-        <tr><td><span class="cmd">show-options -g</span></td><td>View global session configurations</td></tr>
-        <tr><td><span class="cmd">show-window-options -g</span></td><td>View global window configurations</td></tr>
-      </tbody></table>
-      <div class="tip-box">Command mode prompt: <kbd>Ctrl+b</kbd> then <kbd>:</kbd></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">🛠 Advanced CLI Commands</div>
-    <div class="card-body">
-      <table>
-        <tbody><tr><th class="w-short">Command</th><th class="w-act">Description</th></tr>
-        <tr><td><span class="cmd">tmux list-panes</span></td><td>Output active terminal panes list</td></tr>
-        <tr><td><span class="cmd">tmux list-windows</span></td><td>Output list of all windows</td></tr>
-        <tr><td><span class="cmd">tmux show-buffer</span></td><td>Output modern copy buffer data</td></tr>
-        <tr><td><span class="cmd">tmux capture-pane -p</span></td><td>Print entire pane history inline</td></tr>
-      </tbody></table>
-    </div>
-  </div>
 </div>
 
 <div class="footer-flow">
-  <div class="footer-header">WORKFLOW AT A GLANCE</div>
-  <div class="footer-body">
-    <div class="flow-step">1. Connect via SSH</div>
-    <div class="flow-arrow">➔</div>
-    <div class="flow-step">2. Start Session (<span class="cmd">tmux new</span>)</div>
-    <div class="flow-arrow">➔</div>
-    <div class="flow-step">3. Perform Work (Splits/Windows)</div>
-    <div class="flow-arrow">➔</div>
-    <div class="flow-step">4. Detach (<kbd>Ctrl+b</kbd> <kbd>d</kbd>)</div>
-    <div class="flow-arrow">➔</div>
-    <div class="flow-step">5. Close SSH Client</div>
-    <div class="flow-arrow">➔</div>
-    <div class="flow-step">6. Reattach (<span class="cmd">tmux a</span>)</div>
+  <div class="footer-flow-header">The SSH Survival Workflow</div>
+  <div class="footer-flow-body">
+    <span>1. Connect</span>
+    <span class="arrow">➔</span>
+    <span>2. Start (<span class="cmd">tmux new</span>)</span>
+    <span class="arrow">➔</span>
+    <span>3. Split & Work</span>
+    <span class="arrow">➔</span>
+    <span>4. Detach (<kbd>Prefix</kbd> <kbd>d</kbd>)</span>
+    <span class="arrow">➔</span>
+    <span>5. Reattach (<span class="cmd">tmux a</span>)</span>
   </div>
 </div>
 
-
-
-</body></html>
+</body>
+</html>
