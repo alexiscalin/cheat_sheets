@@ -69,6 +69,19 @@
     flex-shrink: 0;
   }
 
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo {
+    width: 24px;
+    height: 24px;
+    /* CSS Filter to match SVG color perfectly to --accent-dark (#0f172a) */
+    /* filter: invert(7%) sepia(21%) saturate(2284%) hue-rotate(185deg) brightness(96%) contrast(94%); */
+  }
+
   .title-group h1 {
     margin: 0;
     font-size: 16pt;
@@ -93,10 +106,11 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: var(--surface-alt);
+    background: var(--surface);
     border: 1px solid var(--border);
     padding: 4px 10px;
     border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   }
 
   .prefix-box .label {
@@ -105,6 +119,12 @@
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+  }
+
+  .prefix-box .keys {
+    display: flex;
+    align-items: center;
+    gap: 3px;
   }
 
   /* --- TYPOGRAPHY & CODE --- */
@@ -276,9 +296,12 @@
 <body>
 
 <div class="header-container">
-  <div class="title-group">
-    <h1>Tmux Cheat Sheet</h1>
-    <p>Ultimate Multi-Terminal Management</p>
+  <div class="header-left">
+    <img src="https://unpkg.com/simple-icons@9.0.0/icons/tmux.svg" class="logo" alt="Tmux Logo">
+    <div class="title-group">
+      <h1>Tmux Cheat Sheet</h1>
+      <p>Ultimate Multi-Terminal Management</p>
+    </div>
   </div>
   <div class="prefix-box">
     <span class="label">Default Prefix</span>
@@ -324,11 +347,11 @@
       <div>
         <table>
           <tr><th class="col-keys">Shortcut</th><th class="col-desc">Action</th></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>d</kbd></div></td><td>Detach (keeps active)</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>s</kbd></div></td><td>Interactive session list</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>$</kbd></div></td><td>Rename current session</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>(</kbd></div></td><td>Switch to previous session</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>)</kbd></div></td><td>Switch to next session</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>d</kbd></div></td><td>Detach (keeps active)</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>s</kbd></div></td><td>Interactive session list</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>$</kbd></div></td><td>Rename current session</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>(</kbd></div></td><td>Switch to previous session</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>)</kbd></div></td><td>Switch to next session</td></tr>
         </table>
       </div>
     </div>
@@ -338,10 +361,10 @@
       <div>
         <table>
           <tr><th class="col-keys">Shortcut</th><th class="col-desc">Action</th></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>q</kbd></div></td><td>Show pane index overlays</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>t</kbd></div></td><td>Show digital clock overlay</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>?</kbd></div></td><td>List all key bindings</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>:</kbd></div></td><td>Open command prompt</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>q</kbd></div></td><td>Show pane index overlays</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>t</kbd></div></td><td>Show digital clock overlay</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>?</kbd></div></td><td>List all key bindings</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>:</kbd></div></td><td>Open command prompt</td></tr>
         </table>
       </div>
     </div>
@@ -353,15 +376,15 @@
       <div>
         <table>
           <tr><th class="col-keys">Shortcut / Cmd</th><th class="col-desc">Action</th></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>c</kbd></div></td><td>Create new window</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>n</kbd></div></td><td>Go to next window</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>p</kbd></div></td><td>Go to previous window</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>0-9</kbd></div></td><td>Go to window by index</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>,</kbd></div></td><td>Rename current window</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>w</kbd></div></td><td>Choose window from list</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>.</kbd></div></td><td>Move/reorder window prompt</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>c</kbd></div></td><td>Create new window</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>n</kbd></div></td><td>Go to next window</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>p</kbd></div></td><td>Go to previous window</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>0-9</kbd></div></td><td>Go to window by index</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>,</kbd></div></td><td>Rename current window</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>w</kbd></div></td><td>Choose window from list</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>.</kbd></div></td><td>Move/reorder window prompt</td></tr>
           <tr><td><span class="cmd">swap-window -s 1 -t 3</span></td><td>Swap window 1 with 3</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>&amp;</kbd></div></td><td>Kill current window</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>&amp;</kbd></div></td><td>Kill current window</td></tr>
         </table>
       </div>
     </div>
@@ -371,16 +394,16 @@
       <div>
         <table>
           <tr><th class="col-keys">Shortcut</th><th class="col-desc">Action</th></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>%</kbd></div></td><td>Split pane vertically</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>"</kbd></div></td><td>Split pane horizontally</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>Arrows</kbd></div></td><td>Navigate between panes</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>o</kbd></div></td><td>Cycle to next pane</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>;</kbd></div></td><td>Jump to previous pane</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>{</kbd> / <kbd>}</kbd></div></td><td>Swap pane with prev/next</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>x</kbd></div></td><td>Close active pane</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>!</kbd></div></td><td>Break pane to new window</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>z</kbd></div></td><td>Toggle fullscreen zoom</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>Space</kbd></div></td><td>Cycle layout styles</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>%</kbd></div></td><td>Split pane vertically</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>"</kbd></div></td><td>Split pane horizontally</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>Arrows</kbd></div></td><td>Navigate between panes</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>o</kbd></div></td><td>Cycle to next pane</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>;</kbd></div></td><td>Jump to previous pane</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>{</kbd> / <kbd>}</kbd></div></td><td>Swap pane with prev/next</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>x</kbd></div></td><td>Close active pane</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>!</kbd></div></td><td>Break pane to new window</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>z</kbd></div></td><td>Toggle fullscreen zoom</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>Space</kbd></div></td><td>Cycle layout styles</td></tr>
         </table>
       </div>
     </div>
@@ -391,8 +414,8 @@
         <table>
           <tr><th class="col-keys">Command / Key</th><th class="col-desc">Action</th></tr>
           <tr><td><span class="cmd">:setw synchronize-panes</span></td><td>Type in all panes</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>Alt</kbd>+<kbd>1-5</kbd></div></td><td>Apply built-in auto layouts</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>Arrows</kbd></div></td><td>Resize pane 1 cell (Hold)</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>Alt</kbd>+<kbd>1-5</kbd></div></td><td>Apply built-in auto layouts</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>Arrows</kbd></div></td><td>Resize pane 1 cell (Hold)</td></tr>
           <tr><td><span class="cmd">resize-pane -D 5</span></td><td>Grow pane Down 5 cells</td></tr>
         </table>
       </div>
@@ -405,11 +428,11 @@
       <div>
         <table>
           <tr><th class="col-keys">Shortcut</th><th class="col-desc">Action</th></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>[</kbd></div></td><td>Enter copy/scroll mode</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>[</kbd></div></td><td>Enter copy/scroll mode</td></tr>
           <tr><td><kbd>Space</kbd></td><td>Begin text selection</td></tr>
           <tr><td><kbd>Arrows</kbd> / <kbd>PgUp</kbd></td><td>Navigate cursor / Scroll</td></tr>
           <tr><td><kbd>Enter</kbd></td><td>Copy selection to buffer</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>]</kbd></div></td><td>Paste from copy buffer</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>]</kbd></div></td><td>Paste from copy buffer</td></tr>
           <tr><td><div class="key-combo"><kbd>q</kbd> <i>or</i> <kbd>Esc</kbd></div></td><td>Exit copy mode</td></tr>
         </table>
       </div>
@@ -456,8 +479,8 @@
       <div>
         <table>
           <tr><th class="col-keys">Shortcut</th><th class="col-desc">Action</th></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>I</kbd></div></td><td>Install plugins (Capital I)</td></tr>
-          <tr><td><div class="key-combo"><kbd>Ctrl</kbd>+<kbd>b</kbd> <kbd>U</kbd></div></td><td>Update plugins</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>I</kbd></div></td><td>Install plugins (Capital I)</td></tr>
+          <tr><td><div class="key-combo"><kbd>Prefix</kbd> <kbd>U</kbd></div></td><td>Update plugins</td></tr>
         </table>
         <div class="tip-box">Requires <em>tmux-plugins/tpm</em> installed.</div>
       </div>
